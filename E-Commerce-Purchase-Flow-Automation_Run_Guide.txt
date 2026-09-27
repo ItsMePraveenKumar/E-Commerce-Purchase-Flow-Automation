@@ -1,0 +1,415 @@
+E-Commerce-Purchase-Flow-Automation
+Project Run Guide
+
+==================================================
+1. PROJECT REQUIREMENTS
+==================================================
+
+Required:
+- Windows
+- Python
+- PyCharm (recommended for this guide)
+- Google Chrome
+- Internet connection
+
+This project uses:
+- Python
+- Selenium
+- PyTest
+- OpenPyXL
+
+==================================================
+2. OPEN THE PROJECT
+==================================================
+
+1. Extract the project ZIP.
+2. Open PyCharm.
+3. Select:
+   File -> Open
+4. Select the project root folder:
+
+E-Commerce-Purchase-Flow-Automation-master
+
+5. Open the PyCharm Terminal.
+
+Make sure the terminal is inside the project root.
+
+Example:
+
+E-Commerce-Purchase-Flow-Automation-master>
+
+==================================================
+3. CHECK PYTHON
+==================================================
+
+Run:
+
+python --version
+
+The tested setup for this project is:
+
+Python 3.14.5
+
+The project also runs successfully with this Python setup.
+
+==================================================
+4. INSTALL REQUIRED PACKAGES
+==================================================
+
+Run:
+
+python -m pip install selenium pytest openpyxl
+
+Why:
+- selenium -> browser automation
+- pytest -> test execution
+- openpyxl -> Excel test data
+
+Using "python -m pip" is recommended because it installs
+packages into the Python environment being used by "python".
+
+==================================================
+5. EXCEL TEST DATA
+==================================================
+
+The project uses:
+
+pythondemo.xlsx
+
+The Excel file is located in the PROJECT ROOT directory.
+
+Example project structure:
+
+E-Commerce-Purchase-Flow-Automation-master/
+|
+|-- PageObjects/
+|-- TestData/
+|-- Tests/
+|-- Utilities/
+|-- pythondemo.xlsx
+|-- ...
+
+TestData/Homepagedata.py uses:
+
+book = openpyxl.load_workbook("pythondemo.xlsx")
+
+==================================================
+6. RUN ONE TEST
+==================================================
+
+A. Run the e-commerce purchase test:
+
+python -m pytest Tests/test_e2e.py -v
+
+Expected result:
+
+1 passed
+
+This test performs the main purchase flow.
+
+Flow:
+
+Open website
+    ->
+Click Shop
+    ->
+Find Blackberry
+    ->
+Add product
+    ->
+Checkout
+    ->
+Select India
+    ->
+Accept checkbox
+    ->
+Submit purchase
+    ->
+Verify success message
+
+--------------------------------------------------
+
+B. Run the home page form test:
+
+python -m pytest Tests/test_homePage.py -v
+
+Expected result:
+
+1 passed
+
+This test performs the home page form submission.
+
+Flow:
+
+Open website
+    ->
+Enter first name
+    ->
+Enter email field
+    ->
+Select checkbox
+    ->
+Select gender
+    ->
+Submit form
+    ->
+Verify success message
+
+==================================================
+7. RUN THE COMPLETE PROJECT
+==================================================
+
+From the project root run:
+
+python -m pytest -v
+
+PyTest automatically finds the test files and runs them.
+
+Expected result for the current project:
+
+collected 2 items
+
+Tests/test_e2e.py::TestOne::test_e2e PASSED
+Tests/test_homePage.py::TestHomePage::test_formSubmission[getData0] PASSED
+
+2 passed
+
+The tested execution time was about 9 seconds.
+
+==================================================
+8. PYTEST COMMANDS
+==================================================
+
+Run one test file:
+
+python -m pytest Tests/test_e2e.py
+
+Run one test file with detailed output:
+
+python -m pytest Tests/test_e2e.py -v
+
+Run the second test:
+
+python -m pytest Tests/test_homePage.py -v
+
+Run all tests:
+
+python -m pytest -v
+
+Run a specific test function:
+
+python -m pytest Tests/test_e2e.py::TestOne::test_e2e -v
+
+Run a specific test function from the home page test:
+
+python -m pytest Tests/test_homePage.py::TestHomePage::test_formSubmission -v
+
+==================================================
+9. WHY USE "python -m pytest"?
+==================================================
+
+Instead of:
+
+pytest Tests/test_e2e.py
+
+use:
+
+python -m pytest Tests/test_e2e.py
+
+This avoids problems where the "pytest" command is not
+available in the Windows PATH.
+
+The project was successfully run using:
+
+python -m pytest -v
+
+==================================================
+10. BROWSER / WEBDRIVER
+==================================================
+
+The project uses Selenium with Chrome.
+
+The code creates Chrome using:
+
+webdriver.Chrome()
+
+Modern Selenium can manage the required Chrome driver
+through Selenium Manager.
+
+A separate ChromeDriver installation is normally not
+required for this project.
+
+Google Chrome must be installed.
+
+==================================================
+11. IMPORTANT PROJECT FILES
+==================================================
+
+PageObjects/
+    Contains Page Object Model classes.
+
+TestData/
+    Contains test data and Excel-related code.
+
+Tests/
+    Contains PyTest test cases and conftest.py.
+
+Utilities/
+    Contains reusable utility/base-class functions.
+
+Important files:
+
+Tests/conftest.py
+    Browser setup and PyTest fixture.
+
+Tests/test_e2e.py
+    Main e-commerce purchase flow.
+
+Tests/test_homePage.py
+    Home page form test.
+
+TestData/Homepagedata.py
+    Reads Excel test data.
+
+PageObjects/HomePage.py
+    Home page interactions.
+
+PageObjects/CheckoutPage.py
+    Shopping/checkout interactions.
+
+PageObjects/ConfirmPage.py
+    Confirmation/purchase interactions.
+
+Utilities/baseclass.py
+    Reusable test utilities.
+
+==================================================
+12. TROUBLESHOOTING
+==================================================
+
+Problem:
+'pytest' is not recognized.
+
+Solution:
+
+python -m pip install pytest
+
+Then:
+
+python -m pytest -v
+
+--------------------------------------------------
+
+Problem:
+FileNotFoundError for pythondemo.xlsx.
+
+Cause:
+pythondemo.xlsx is missing from the project root.
+
+Solution:
+Put pythondemo.xlsx in the project root and use:
+
+book = openpyxl.load_workbook("pythondemo.xlsx")
+
+--------------------------------------------------
+
+Problem:
+Excel file cannot be opened.
+
+Cause:
+The file may not be a real .xlsx file.
+
+Solution:
+Create a valid Excel workbook with:
+
+TestCase | firstname | lastname | gender
+TestCase 2 | Vikash | Dwivedi | Male
+
+--------------------------------------------------
+
+Problem:
+Chrome/WebDriver does not start.
+
+Check:
+1. Chrome is installed.
+2. Internet connection is available.
+3. Selenium is installed:
+
+python -m pip install selenium
+
+--------------------------------------------------
+
+Problem:
+A test fails after the website changes.
+
+Possible cause:
+The automation depends on website elements, locators,
+text, and page behavior.
+
+Check the Selenium error and the affected Page Object.
+
+==================================================
+13. VERIFIED WORKING COMMANDS
+==================================================
+
+The following commands were successfully tested:
+
+python -m pytest Tests/test_e2e.py -v
+
+Result:
+1 passed
+
+python -m pytest Tests/test_homePage.py -v
+
+Result:
+1 passed
+
+python -m pytest -v
+
+Result:
+2 passed
+
+==================================================
+14. QUICK START
+==================================================
+
+For an already configured project:
+
+1. Open project in PyCharm.
+2. Open Terminal.
+3. Make sure pythondemo.xlsx is in the project root.
+4. Run:
+
+python -m pytest -v
+
+That's it.
+
+==================================================
+15. COMPLETE SETUP FROM ZERO
+==================================================
+
+1. Install Python.
+2. Install Google Chrome.
+3. Extract the project ZIP.
+4. Open the project in PyCharm.
+5. Open PyCharm Terminal.
+6. Check Python:
+
+python --version
+
+7. Install dependencies:
+
+python -m pip install selenium pytest openpyxl
+
+8. Make sure pythondemo.xlsx is in the project root.
+9. Make sure Homepagedata.py uses:
+
+book = openpyxl.load_workbook("pythondemo.xlsx")
+
+10. Run the complete project:
+
+python -m pytest -v
+
+Expected:
+
+2 passed
