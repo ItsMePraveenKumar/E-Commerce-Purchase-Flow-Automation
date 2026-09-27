@@ -217,12 +217,6 @@ pythondemo.xlsx
 
 The file is located in the project root.
 
-Example data:
-
-| TestCase | firstname | lastname | gender |
-|----------|-----------|----------|--------|
-| TestCase 2 | Vikash | Dwivedi | Male |
-
 The Excel file is read using the **OpenPyXL** library.
 
 The data is loaded through:
